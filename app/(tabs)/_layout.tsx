@@ -1,7 +1,7 @@
 import React from 'react';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { Link, Tabs } from 'expo-router';
-import { Pressable, View } from 'react-native';
+import { Pressable, View, Platform } from 'react-native';
 import { useAuth } from '@/src/context/AuthContext';
 
 export default function TabLayout() {
@@ -13,44 +13,46 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#40407a",
+        tabBarActiveTintColor: "#3ec976",
+        tabBarInactiveTintColor: "#9ca3af",
+        tabBarStyle: {
+          borderTopWidth: 0,
+          elevation: 15,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -5 },
+          shadowOpacity: 0.05,
+          shadowRadius: 10,
+          backgroundColor: '#ffffff',
+          height: Platform.OS === 'ios' ? 85 : 65,
+          paddingBottom: Platform.OS === 'ios' ? 25 : 10,
+          paddingTop: 10,
+          position: 'absolute', // Membuat tab bar melayang sedikit di atas konten
+        },
         headerStyle: {
-          backgroundColor: "#40407a",
+          backgroundColor: "#3ec976",
+          shadowColor: 'transparent',
         },
         headerTintColor: "#fff",
         headerTitleStyle: {
-          fontWeight: "bold",
+          fontWeight: "800",
         },
       }}>
       <Tabs.Screen
         name="index"
         options={{
           title: 'Beranda',
-          tabBarIcon: ({ color }) => <FontAwesome name="home" size={24} color={color} />,
-          headerRight: () => (
-            <View className="flex-row gap-4">
-              <Link href="/chat" asChild>
-                <Pressable className="mr-4">
-                  <FontAwesome name="comments" size={24} color="#fff" />
-                </Pressable>
-              </Link>
-              <Link href="/modal" asChild>
-                <Pressable className="mr-4">
-                  <FontAwesome name="info-circle" size={24} color="#fff" />
-                </Pressable>
-              </Link>
-            </View>
-          ),
+          headerShown: false, // Disembunyikan karena sudah ada Custom Premium Header di index.tsx
+          tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
         }}
       />
       
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Jual Makanan',
+          title: 'Partner',
           // Sembunyikan TAB ini sepenuhnya jika bukan Partner Terverifikasi
           href: isPartner ? '/two' : null,
-          tabBarIcon: ({ color }) => <FontAwesome name="plus-circle" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name="storefront" size={24} color={color} />,
         }}
       />
     </Tabs>
